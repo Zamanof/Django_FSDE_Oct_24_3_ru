@@ -36,7 +36,45 @@ def notes_list(request: HttpRequest) -> HttpResponse:
     notes = data.list_notes()
     items: list[str] = []
     for note in notes:
+        url = reverse('notes_detail', kwargs={'note_id': note["id"]})
         items.append(f"""
-            <li>{escape(note["title"])}</li>
+            <li>
+                <p>                
+                    <a href="{url}">
+                        {escape(note["title"])}
+                    </a>
+                    </br>
+                    Category: <small>{escape(note["category"])}</small>
+                    </br>
+                    Tag: <small>{escape(note["tag"])}</small>
+                </p>                 
+            </li>
 """)
-    return HttpResponse(items)
+    body = f"""
+    <h1>Knowledgehub notes list</h1>
+    <ul>
+        {"".join(items)}
+    </ul>
+    """
+    return HttpResponse(body)
+
+
+def notes_detail(request: HttpRequest, note_id:int) -> HttpResponse:
+    note = data.get_note(note_id)
+    body = f"""
+        <h1>{escape(note["title"])}</h1>
+        <p>
+            {escape(note["body"])}
+        </p>
+        </br>
+        Category: <small>{escape(note["category"])}</small>
+        </br>
+        Tag: <small>{escape(note["tag"])}</small>
+        <p>
+            <a href="{escape(reverse('notes_list'))}">
+                Return to notes list
+            </a>
+        </p>       
+    """
+
+    return HttpResponse(body)
