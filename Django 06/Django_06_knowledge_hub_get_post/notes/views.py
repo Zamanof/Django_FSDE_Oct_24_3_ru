@@ -634,3 +634,11 @@ def notes_create(request: HttpRequest
     </form>
     """
     return HttpResponse(html_shell("Create new note", form))
+
+
+def notes_update(request: HttpRequest, note_id:int) -> HttpResponse:
+    note = data.get_note(note_id)
+    if note is None:
+        return HttpResponse(
+            
+        )

@@ -105,3 +105,29 @@ def create_note(
     _NOTES.append(note)
     _next_id += 1
     return deepcopy(note)
+
+
+def update_note(
+        note_id: int,
+        *,
+        title:str,
+        body:str,
+        tag:str,
+        category:str,
+)->dict[str, Any] | None:
+    for note in _NOTES:
+        if note["id"] == note_id:
+            note["title"] = title.strip()
+            note["body"] = body.strip()
+            note["tag"] = tag.strip()
+            note["category"] = category.strip()
+            return deepcopy(note)
+        return None
+    return None
+
+
+def delete_note(note_id: int) -> bool:
+    global _NOTES
+    before = len(_NOTES)
+    _NOTES = [n for n in _NOTES if n['id'] != note_id]
+    return before != len(_NOTES)
