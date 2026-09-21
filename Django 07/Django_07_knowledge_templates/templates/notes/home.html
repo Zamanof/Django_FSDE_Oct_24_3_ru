@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>
+            Добро пожаловать в Архив знаний
+        </h1>
+
+
+        <p>
+            Здесь вы можете создавать,
+            просматривать, редактировать
+            и удалять свои заметки.
+        </p>
+
+
+        <div class="actions">
+
+            <a
+                class="action-link"
+                href="{% url 'notes_list' %}"
+            >
+                Список заметок
+            </a>
+
+
+            <a
+                class="action-link"
+                href="#"
+            >
+                Создать заметку
+            </a>
+
+        </div>
+{% endblock %}
