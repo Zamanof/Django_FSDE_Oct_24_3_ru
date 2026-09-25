@@ -4,7 +4,7 @@
     <facet type="django" name="Django">
       <configuration>
         <option name="rootFolder" value="$MODULE_DIR$" />
-        <option name="settingsModule" value="Django_07_knowledge_templates/settings.py" />
+        <option name="settingsModule" value="django_08_knowledge_forms/settings.py" />
         <option name="manageScript" value="$MODULE_DIR$/manage.py" />
         <option name="environment" value="&lt;map/&gt;" />
         <option name="doNotUseTestRunner" value="false" />
@@ -15,17 +15,20 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
-      <excludeFolder url="file://$MODULE_DIR$/Django_07_knowledge_templates/.venv" />
     </content>
-    <orderEntry type="jdk" jdkName="~\Documents\Django_FSDE_Oct_24_3_ru\Django 07\Django_07_knowledge_templates\.venv" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="~\Documents\Django_FSDE_Oct_24_3_ru\Django 08\Django_08_knowledge_forms\.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="PackageRequirementsSettings" />
+  <component name="PyDocumentationSettings" />
+  <component name="ReSTService" />
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/../Django_07_knowledge_templates\templates" />
+        <option value="$MODULE_DIR$/../Django_08_knowledge_forms\templates" />
       </list>
     </option>
   </component>
+  <component name="TestRunnerService" />
 </module>
