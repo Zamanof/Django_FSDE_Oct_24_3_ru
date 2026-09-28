@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Список заметок
+{% endblock %}
+
+{% block content %}
+{% with total=notes|length %}
+<h1>Список заметок — {{ total }} штук</h1>
+{% endwith %}
+<ul>
+    {% for note in notes %}
+        <li>
+            <a href="{% url 'notes:notes_detail' note.id %}">
+                <span class="note-title">{{ note.title }}</span>
+            </a>
+            <div class="note-meta">
+                <span class="meta-label">Категория</span>
+                {% if note.category == "backend" %}
+                    <span class="meta-badge">{{ note.category }}</span>
+                {% elif note.category == "devops" %}
+                    <span class="meta-badge">{{ note.category }}</span>
+                {% else %}
+                    <span class="meta-badge">{{ note.category }}</span>
+                {% endif %}
+
+                <span class="meta-label">Теги</span>
+                <span class="tag-list">
+                    {% for tag in note.tags %}
+                        <span class="tag-chip">{{ tag }}</span>
+                    {% endfor %}
+                </span>
+            </div>
+        </li>
+    {% empty %}
+        <li class="empty-message">Список заметок пуст</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+
+{% comment %}
+	Template tags (теги шаблонов Django), используемые на этой странице:
+
+	{% extends %}
+	— подключает базовый шаблон; текущий шаблон наследует его разметку
+
+	{% block %} / {% endblock %}
+	— задаёт именованный блок, который можно переопределить в дочернем шаблоне
+
+	{% with %} / {% endwith %}
+	— создаёт временную переменную (здесь: total = notes|length)
+
+	{% for %} / {% endfor %}
+	— цикл по коллекции (заметки, теги)
+
+	{% empty %}
+	— блок внутри {% for %}: выводится, если коллекция пуста
+
+	{% if %} / {% elif %} / {% else %} / {% endif %}
+	— условная логика (проверка категории заметки)
+
+	{% url %}
+	— строит URL по имени маршрута (например, notes_detail)
+
+	{% include %}
+	— вставляет другой шаблон (например, шапка в base.html)
+
+	comment / endcomment
+	— комментарий в шаблоне; на странице не отображается
+
+	Фильтр на этой странице:
+	|length — количество элементов в списке
+
+
+	Остальные важные теги (на этой странице не используются):
+
+	{% load static %}
+	— подключает библиотеку тегов (например, static)
+
+	{% static "css/style.css" %}
+	— путь к статическому файлу
+
+	{% csrf_token %}
+	— скрытое поле CSRF для защиты POST-форм
+
+	{% autoescape on %} / {% autoescape off %} / {% endautoescape %}
+	— включает / выключает автоэкранирование HTML
+
+	{% cycle "odd" "even" %}
+	— по очереди подставляет значения в цикле (для чередования классов)
+
+	{% resetcycle %}
+	— сбрасывает {% cycle %} к первому значению
+
+	{% filter force_escape|lower %} ... {% endfilter %}
+	— применяет фильтры ко всему блоку текста
+
+	{% firstof var1 var2 "запасной текст" %}
+	— выводит первую непустую переменную
+
+	{% ifchanged %} ... {% endifchanged %}
+	— выводит блок только если значение изменилось с прошлой итерации цикла
+
+	{% lorem %}
+	— вставляет тестовый текст (lorem ipsum)
+
+	{% now "d.m.Y H:i" %}
+	— текущие дата и время в заданном формате
+
+	{% regroup notes by category as grouped %}
+	— группирует список объектов по полю
+
+	{% spaceless %} ... {% endspaceless %}
+	— убирает пробелы и переносы между HTML-тегами
+
+	{% templatetag openblock %}
+	— выводит символы тегов Django как текст ({%, %}, {{ и т.д.)
+
+	{% verbatim %} ... {% endverbatim %}
+	— выводит содержимое без обработки шаблонизатором
+
+	{% widthratio value max max_width %}
+	— вычисляет пропорцию (часто для ширины прогресс-бара)
+
+	{% debug %}
+	— отладочный вывод контекста шаблона
+
+	{% get_static_prefix %} / {% get_media_prefix %}
+	— префикс URL для static / media
+
+	Локализация / перевод (django.templatetags.i18n):
+	{% load i18n %}
+	{% translate "Текст" %} / {% trans "Текст" %}
+	— перевод короткой строки
+	{% blocktranslate %} ... {% endblocktranslate %}
+	— перевод блока текста
+	{% language "ru" %} ... {% endlanguage %}
+	— временно переключает язык
+	{% get_current_language as LANGUAGE_CODE %}
+	— текущий код языка
+
+	Кэш (django.templatetags.cache):
+	{% load cache %}
+	{% cache 500 sidebar %} ... {% endcache %}
+	— кэширует фрагмент шаблона на N секунд
+
+	Локализация чисел/дат (django.templatetags.l10n):
+	{% load l10n %}
+	{% localize on %} / {% localize off %}
+	— локализованный вывод чисел и дат
+	{% timezone "Europe/Moscow" %} ... {% endtimezone %}
+	— вывод дат в указанном часовом поясе
+{% endcomment %}
+

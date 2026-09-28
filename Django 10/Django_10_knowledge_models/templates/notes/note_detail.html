@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if note %}
+        {{ note.title }}
+    {% else %}
+        Заметка не найдена
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if note %}
+    <h1>{{ note.title|title }}</h1>
+    <div class="note-content">
+        <strong>Содержание: </strong>{{ note.content|truncatechars:15 }}
+    </div>
+
+    <div class="note-meta-block">
+        <p class="note-meta">
+            <span class="meta-label">Категория</span>
+            <span class="meta-badge">{{ note.category }}</span>
+        </p>
+
+        <p class="note-meta">
+            <span class="meta-label">Теги</span>
+            <span class="tag-list">
+                {% for tag in note.tags %}
+                    <span class="tag-chip">{{ tag }}</span>
+                {% endfor %}
+            </span>
+        </p>
+
+        <p class="note-meta">
+            <span class="date-stamp">
+{#        {{ note.created_at|date:"d/m/Y" }}#}
+{#        {{ note.created_at|date:"d.m.Y H:i" }}#}
+                {{ note.created_at|date:"j F Y" }}
+            </span>
+        </p>
+    </div>
+    {% else %}
+    <p class="empty-message">Заметка не найдена</p>
+{% endif %}
+<div class="actions">
+    <a class="action-link" href="{% url 'notes:notes_list' %}">Вернуться к списку</a>
+</div>
+{% endblock %}
+{% comment %}
+	Template filters (фильтры шаблонов Django):
+
+	Строки:
+	|upper — перевод в ВЕРХНИЙ РЕГИСТР
+	|lower — перевод в нижний регистр
+	|title — каждое слово с заглавной буквы
+	|capfirst — только первая буква заглавная
+	|cut:" " — удаляет указанные символы из строки
+	|slugify — делает строку пригодной для URL (латиница, дефисы)
+	|striptags — удаляет HTML-теги
+	|escape / |force_escape — экранирует HTML
+	|safe — помечает строку как безопасный HTML
+	|linebreaks — переносы строк → <br> / <p>
+	|linebreaksbr — переносы строк → <br>
+	|wordwrap:80 — перенос длинной строки по ширине
+	|truncatechars:15 — обрезает текст до N символов (с «…»)
+	|truncatechars_html:15 — то же, с учётом HTML
+	|truncatewords:10 — обрезает до N слов
+	|truncatewords_html:10 — то же, с учётом HTML
+	|addslashes — экранирует кавычки обратным слэшем
+	|center:20 — центрирует строку в поле заданной ширины
+	|ljust:20 / |rjust:20 — выравнивание влево / вправо
+	|make_list — разбивает строку на список символов
+	|stringformat:"s" — форматирование в стиле printf
+	|urlencode — кодирует строку для URL
+	|urlize — превращает URL в ссылки
+	|iriencode — IRI → ASCII для URL
+
+	Списки / последовательности:
+	|length — количество элементов
+	|length_is:3 — True, если длина равна N (устаревший)
+	|first — первый элемент
+	|last — последний элемент
+	|join:", " — склеивает список в строку через разделитель
+	|slice:":2" — срез списка / строки
+	|dictsort:"key" — сортировка списка словарей по ключу
+	|dictsortreversed:"key" — то же в обратном порядке
+	|unordered_list — список → вложенный HTML <ul>
+	|random — случайный элемент
+
+	Числа:
+	|add:5 — прибавить число / склеить строки
+	|divisibleby:2 — делится ли нацело
+	|floatformat:2 — округление float (2 знака)
+	|filesizeformat — байты → «13 KB», «4.1 MB»
+	|get_digit:1 — цифра числа по позиции
+	|phone2numeric — буквы телефона → цифры
+	|pluralize / |pluralize:"а,ов" — окончание для множественного числа
+
+	Логика / значения по умолчанию:
+	|default:"—" — значение, если объект False / пустой
+	|default_if_none:"—" — только если значение None
+	|yesno:"да,нет,возможно" — True/False/None → текст
+
+	Дата и время (|date:"формат", |time:"формат"):
+	|date — форматирует дату/datetime
+	|time — форматирует только время
+	|timesince — сколько прошло с момента даты («2 days»)
+	|timeuntil — сколько осталось до даты
+
+	Коды формата для |date и |time:
+
+	День:
+	d — день месяца, 01–31
+	j — день месяца, 1–31 (без нуля)
+	D — день недели, сокращённо (Mon)
+	l — день недели полностью (Monday)
+	N — месяц в AP-стиле (Jan., Feb.)
+	S — английский суффикс дня (st, nd, rd, th)
+	w — день недели, 0 (вс) – 6 (сб)
+	z — день года, 0–365
+	W — номер недели ISO-8601
+
+	Месяц:
+	m — месяц, 01–12
+	n — месяц, 1–12 (без нуля)
+	M — месяц, сокращённо (Jan)
+	b — месяц, сокращённо в нижнем регистре (jan)
+	F — месяц полностью (January)
+	E — локализованное название месяца
+	t — число дней в месяце
+
+	Год:
+	y — год, 2 цифры (26)
+	Y — год, 4 цифры (2026)
+	L — високосный год? True/False
+	o — год ISO-8601
+
+	Время:
+	g — часы 1–12 без нуля
+	G — часы 0–23 без нуля
+	h — часы 01–12
+	H — часы 00–23
+	i — минуты 00–59
+	s — секунды 00–59
+	u — микросекунды
+	a — am / pm
+	A — AM / PM
+	e — часовой пояс (название)
+	I — летнее время? «1» / «0»
+	O — смещение от UTC (+0400)
+	P — «4:30 p.m.» / «noon» / «midnight»
+	T — часовой пояс сокращённо
+	Z — смещение от UTC в секундах
+
+	Примеры на этой странице:
+	{{ note.title|title }}
+	{{ note.content|truncatechars:15 }}
+	{{ note.created_at|date:"j F Y" }}     → 21 September 2026
+	{{ note.created_at|date:"d/m/Y" }}     → 21/09/2026
+	{{ note.created_at|date:"d.m.Y H:i" }} → 21.09.2026 00:00
+	{{ note.tags|join:", " }}              → python, django
+{% endcomment %}
+
