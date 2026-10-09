@@ -2,11 +2,11 @@ from django.conf import settings
 from django.db import models
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True, verbose_name='Название')
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='Слаг')
     class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
         ordering = ['name']
 
     def __str__(self):
@@ -14,10 +14,10 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True, verbose_name='Название')
     class Meta:
-        verbose_name = 'Tag'
-        verbose_name_plural = 'Tags'
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
         ordering = ['name']
 
     def __str__(self):
@@ -25,30 +25,34 @@ class Tag(models.Model):
 
 
 class Note(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    title = models.CharField(max_length=100, verbose_name='Заголовок')
+    content = models.TextField(verbose_name='Содержание')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Обновлено')
 
     category = models.ForeignKey(
         Category,
         on_delete=models.PROTECT,
-        related_name='notes',)
+        related_name='notes',
+        verbose_name='Категория',
+    )
 
     tags = models.ManyToManyField(
         Tag,
         related_name='notes',
+        verbose_name='Теги',
     )
 
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='notes',
+        verbose_name='Автор',
     )
 
     class Meta:
-        verbose_name = 'Note'
-        verbose_name_plural = 'Notes'
+        verbose_name = 'Заметка'
+        verbose_name_plural = 'Заметки'
         ordering = ['-created_at']
 
     def __str__(self):
