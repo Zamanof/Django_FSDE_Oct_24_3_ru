@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Кабинет
+{% endblock %}
+
+{% block content %}
+	<h1>Личный кабинет</h1>
+
+    <p class="page-text">
+        Вы вошли как <strong>{{ active_user.username }}</strong>
+        {% if active_user.email %}
+            ({{ active_user.email }})
+        {% endif %}.
+    </p>
+
+    <div class="actions">
+        <a class="action-link" href="{% url 'notes:notes_list' %}">Мои заметки</a>
+        <a class="action-link" href="{% url 'notes:notes_create' %}">Создать заметку</a>
+    </div>
+{% endblock %}

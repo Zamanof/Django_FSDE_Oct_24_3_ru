@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Регистрация завершена
+{% endblock %}
+
+{% block content %}
+	<h1>Регистрация завершена</h1>
+    <p class="page-text">
+        Аккаунт успешно создан. Теперь вы можете пользоваться архивом знаний.
+    </p>
+    <div class="actions">
+        <a class="action-link" href="{% url 'accounts:dashboard' %}">Перейти в кабинет</a>
+    </div>
+{% endblock %}

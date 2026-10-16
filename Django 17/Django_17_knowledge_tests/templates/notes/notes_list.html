@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Список заметок
+{% endblock %}
+
+{% block content %}
+{% with total=notes|length %}
+<h1>Список заметок — {{ total }} штук</h1>
+{% endwith %}
+<ul>
+    {% for note in notes %}
+        <li>
+            <a href="{% url 'notes:notes_detail' note.id %}">
+                <span class="note-title">{{ note.title }}</span>
+            </a>
+            <div class="note-meta">
+                <span class="meta-label">Категория</span>
+                <span class="meta-badge">{{ note.category }}</span>
+
+                <span class="meta-label">Теги</span>
+                <span class="tag-list">
+                    {% for tag in note.tags.all %}
+                        <span class="tag-chip">{{ tag }}</span>
+                    {% endfor %}
+                </span>
+            </div>
+        </li>
+    {% empty %}
+        <li class="empty-message">Список заметок пуст</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
